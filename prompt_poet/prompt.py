@@ -483,9 +483,10 @@ class Prompt:
                 raise ValueError(f"Missing replacement values for keys: {missing_keys=} {part=}")
 
     def _cleanup_content(self, part: PromptPart):
-        """Remove whitespace and unescape special characters, if present."""
-        content = part.content.strip().replace(self._space_marker, " ")
-        part.content = self._unescape_special_characters(content)
+        """Safely handle content that may be non-string (e.g., dict)."""
+        if isinstance(part.content, str):
+            content = part.content.strip().replace(self._space_marker, " ")
+            part.content = self._unescape_special_characters(content)
 
     def _escape_special_characters(self, string: str) -> str:
         """Escape sequences that will break yaml parsing."""
