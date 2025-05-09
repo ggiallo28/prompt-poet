@@ -106,6 +106,7 @@ class Prompt:
         allow_token_overrides: bool = False,
     ):
         """Initialize the prompt object."""
+        template_path = template_path or ""
         self._template = Template(
             template_path=template_path,
             package_name=package_name,
